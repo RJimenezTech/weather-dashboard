@@ -1,24 +1,20 @@
+let today = moment().format("MM/DD/YYYY");
+const myKey = "dd013adc3cf1902b3d464ff37618387b";
+
 let currentTempEl = document.querySelector(".current-temp");
 let currentWindEl = document.querySelector(".current-wind");
 let currentHumidityEl = document.querySelector(".current-humidity");
 let currentUviEl = document.querySelector(".current-uvi");
+let weatherCardDateEl = document.querySelector(".todays-info");
 
-const myKey = "dd013adc3cf1902b3d464ff37618387b";
+let cityInput = document.querySelector(".search-text");
+let citySearchBtn = document.querySelector(".search-button");
 
-let getCoordinates = function(inputCity) {
-    let lat = "";
-    let lon = "";
-    let coordinates = [lat, lon];
-    // find a way to get coordinates from city input
-    return coordinates;
-}
+let getWeather = function() {
+  
+    let city = cityInput.value;
+    let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city +"&units=imperial&appid=" + myKey;
 
-let getWeather = function(coordinates) {
-    let lat = "33.44";
-    let lon = "-94.04";
-
-    let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+ lat +"&lon="+ lon +"&units=imperial&appid=" + myKey;
-    
     fetch(apiUrl)
     .then(function(response) {
       // request was successful
@@ -38,14 +34,44 @@ let getWeather = function(coordinates) {
 }
 
 let displayWeather = function(weatherData) {
-    let temp = weatherData.current.temp;
-    let wind = weatherData.current.wind_speed;
-    let humidity = weatherData.current.humidity;
-    let uv = weatherData.current.uvi;
+    let lon = weatherData.coord.lon;
+    let lat = weatherData.coord.lat;
+    console.log(lon);
+    console.log(lat);
+    
+    let uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + myKey;
+    
+    fetch(uvUrl)
+    .then(function(response) {
+      // request was successful
+      if (response.ok) {
+        // console.log(response);
+        response.json().then(function(data) {
+          console.log(data);
+          displayUvi(data);
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function(error) {
+      alert("Unable to connect to Open Weather");
+    });
+    
+    weatherCardDateEl.textContent = "(" + today + ")";
+    let temp = weatherData.main.temp;
+    let wind = weatherData.wind.speed;
+    let humidity = weatherData.main.humidity;
     currentTempEl.textContent = "Temp: " + temp;
     currentWindEl.textContent = "Wind: " + wind; 
     currentHumidityEl.textContent = "Humidity: " + humidity;
-    currentUviEl.textContent = "UV Index: " + uv;
 }   
 
-getWeather();
+let displayUvi = function(uvData) {
+  let uv = uvData.current.uvi;
+  currentUviEl.textContent = "UV Index: " + uv;
+};
+
+citySearchBtn.addEventListener("click",getWeather);
+
+// update uv color function
