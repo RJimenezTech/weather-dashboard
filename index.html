@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header class="bg-dark text-light d-flex justify-content-center align-items-center">
+        <h1>Weather Dashboard</h1>
+            <!-- <i class="fab fa-github"></i> -->
+    </header>
+
+    <main class="container-fluid">
+        <div class="row vh-100">
+            <div class="search col-2 bg-info">
+                <div class="search-input">
+                    <h2>Search for a city:</h2>
+                    <textarea class="search-text" placeholder="Enter city name" rows="1"></textarea>
+                    <button  class="btn btn-primary btn-long" type="submit">Search</button>
+                </div>
+                <div class="search-history">
+                    <h2>Search History</h2>
+                    <button class="btn btn-secondary btn-long" type="submit">austin</button>
+                    <button class="btn btn-secondary btn-long" type="submit">houston</button>
+                </div>
+                
+            </div>
+            <div class="weather col-10 bg-light">
+                <div></div>
+                <h2>The City's weather:</h2>
+                <p class="city-weather">City's weather</p>
+            </div>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
