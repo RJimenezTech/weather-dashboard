@@ -21,20 +21,24 @@
             <div class="search col-2 bg-info">
                 <div class="search-input">
                     <h2>Search for a city:</h2>
-                    <textarea class="search-text" placeholder="Enter city name" rows="1"></textarea>
-                    <button  class="search-button btn btn-primary btn-long" type="submit">Search</button>
+                    <form>
+                        <input class="search-text" placeholder="Enter city name" rows="1" type="text"/>
+                        <button  class="search-button btn btn-primary btn-long" 
+                        type="submit" style="overflow:hidden;resize:none">Search</button>  
+                    </form>
+                    
                 </div>
                 <div class="search-history">
                     <h2>Search History</h2>
-                    <button class="btn btn-secondary btn-long" type="submit">austin</button>
-                    <button class="btn btn-secondary btn-long" type="submit">houston</button>
+                    <button class="btn btn-secondary btn-long">austin</button>
+                    <button class="btn btn-secondary btn-long">houston</button>
                 </div>
                 
             </div>
             <div class="weather col-10 bg-light">
                 <div></div>
                 <h2 class="todays-info"></h2>
-                <p class="city-weather">City's weather</p>
+                <p class="city-weather"></p>
                 <p class="current-temp"></p>
                 <p class="current-wind"></p>
                 <p class="current-humidity"></p>

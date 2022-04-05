@@ -33,6 +33,13 @@
     width: 85%;
     border-radius: 5px;
 }
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-self: center;
+    gap: 5px;
+}
 .search-history {
     width: 100%;
     display: flex;
