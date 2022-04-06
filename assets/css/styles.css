@@ -53,3 +53,14 @@ form {
 .weather {
     outline: 1px solid black;
 }
+
+
+.forecast-card {
+    margin: 5px;
+    border: 1px solid black;
+    padding: 2px;
+    background-color: purple;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
