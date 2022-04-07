@@ -80,6 +80,7 @@ var getWeather = function(event) {
 
 var displayWeather = function(weatherData) {
     // clear info
+    currentImageEl.innterHTML = "";
     currentTempEl.innerHTML = "";
     currentWindEl.innerHTML = "";
     currentHumidityEl.innerHTML = "";
@@ -115,6 +116,8 @@ var displayWeather = function(weatherData) {
     let temp = weatherData.main.temp;
     let wind = weatherData.wind.speed;
     let humidity = weatherData.main.humidity;
+    let source = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png";
+    currentImageEl.setAttribute("src",source);
     currentTempEl.innerHTML = "Temp: " + temp + " &#186;F";
     currentWindEl.innerHTML = "Wind: " + wind + " MPH"; 
     currentHumidityEl.innerHTML = "Humidity: " + humidity + "%";
@@ -129,13 +132,13 @@ var displayForecast = function(data) {
         // clear old card info
     forecastCardContainerEl.innerHTML = "";
 
-
-
     for (let i =0; i < 5; i++) {
     let forecastCardEl = document.createElement("div");
-    forecastCardEl.className = "forecast-card col";
+    forecastCardEl.className = "forecast-card col-3 col-md-4 col-lg bg-info";
     let forecastDateEl = document.createElement("p");
-    let forecastImageEl = document.createElement("p");
+    let forecastImageEl = document.createElement("img");
+    let source = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
+    forecastImageEl.setAttribute("src",source);
     let forecastTempEl = document.createElement("p");
     let forecastWindEl = document.createElement("p");
     let forecastHumidEl = document.createElement("p");

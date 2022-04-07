@@ -6,19 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
   <link rel="stylesheet" href="./assets/css/styles.css" />
   <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <header class="bg-dark text-light d-flex justify-content-center align-items-center">
+    <header class="bg-primary text-light d-flex justify-content-center align-items-center">
         <h1>Weather Dashboard</h1>
             <!-- <i class="fab fa-github"></i> -->
     </header>
 
     <main class="container-fluid">
         <div class="row vh-100">
-            <div class="search col-12 col-md-3 bg-info">
+            <div class="search col-12 col-md-3">
                 <div class="search-input">
                     <h2>Search for a city:</h2>
                     <form>
@@ -37,7 +38,7 @@
                 <div class="row p-1">
                     <div class="current-weather col-12 border border-dark p-2 m-1">
                         <h2 class="todays-info">Today is: </h2>
-                        <div class="current-image"></div>
+                        <img class="current-image" alt="current weather icon"/>
                         <p class="current-temp">Temp:</p>
                         <p class="current-wind">Wind: </p>
                         <p class="current-humidity">Humidity: </p>
@@ -46,37 +47,32 @@
                     <div class="forecast-weather col-12 border border-dark p-2 m-1">
                         <h2>5-day Forecast: </h2>
                         <div class="forecast-card-container row container d-flex justify-content-center align-items-center"> 
-                            <div class="forecast-card col-3 col-md-4 col-lg">
+                            <div class="forecast-card col-3 col-md-4 col-lg bg-info">
                                 <p class="forecast-date">Date: </p>
-                                <p class="forecast-image">Image</p>
                                 <p class="forecast-temp">Temp: </p>
                                 <p class="forecast-wind">Wind: </p>
                                 <p class="forecast-humidity">Humidiy: </p>
                             </div>
-                            <div class="forecast-card col-3 col-md-4 col-lg">
+                            <div class="forecast-card col-3 col-md-4 col-lg bg-info">
                                 <p class="forecast-date">Date: </p>
-                                <p class="forecast-image">Image: </p>
                                 <p class="forecast-temp">Temp: </p>
                                 <p class="forecast-wind">Wind: </p>
                                 <p class="forecast-humidity">Humidiy: </p>
                             </div>
-                            <div class="forecast-card col-3 col-md-4 col-lg">
+                            <div class="forecast-card col-3 col-md-4 col-lg bg-info">
                                 <p class="forecast-date">Date: </p>
-                                <p class="forecast-image">Image: </p>
                                 <p class="forecast-temp">Temp: </p>
                                 <p class="forecast-wind">Wind: </p>
                                 <p class="forecast-humidity">Humidiy: </p>
                             </div>
-                            <div class="forecast-card col-3 col-md-4 col-lg">
+                            <div class="forecast-card col-3 col-md-4 col-lg bg-info">
                                 <p class="forecast-date">Date: </p>
-                                <p class="forecast-image">Image: </p>
                                 <p class="forecast-temp">Temp: </p>
                                 <p class="forecast-wind">Wind: </p>
                                 <p class="forecast-humidity">Humidiy: </p>
                             </div>
-                            <div class="forecast-card col-3 col-md-4 col-lg">
+                            <div class="forecast-card col-3 col-md-4 col-lg bg-info">
                                 <p class="forecast-date">Date: </p>
-                                <p class="forecast-image">Image: </p>
                                 <p class="forecast-temp">Temp: </p>
                                 <p class="forecast-wind">Wind: </p>
                                 <p class="forecast-humidity">Humidiy: </p>
