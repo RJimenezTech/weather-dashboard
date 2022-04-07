@@ -54,9 +54,8 @@ form {
     outline: 1px solid black;
 }
 
-.forecast-card-container {
+.forecast-card-container {}
 
-}
 .forecast-card {
     margin: 5px;
     border: 1px solid black;

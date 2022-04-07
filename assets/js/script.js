@@ -1,4 +1,10 @@
 let today = moment().format("MM/DD/YYYY");
+let todayPlusOne = moment(today).add(1,'day').format("MM/DD/YYYY");
+let todayPlusTwo = moment(today).add(2,'day').format("MM/DD/YYYY");
+let todayPlusThree = moment(today).add(3,'day').format("MM/DD/YYYY");
+let todayPlusFour = moment(today).add(4,'day').format("MM/DD/YYYY");
+let todayPlusFive = moment(today).add(5,'day').format("MM/DD/YYYY");
+let forecastDateArray = [todayPlusOne,todayPlusTwo,todayPlusThree,todayPlusFour,todayPlusFive];
 const myKey = "dd013adc3cf1902b3d464ff37618387b";
 
 let currentImageEl = document.querySelector(".current-image");
@@ -13,24 +19,40 @@ let citySearchBtn = document.querySelector(".search-button");
 let searchHistoryEl = document.querySelector(".search-history");
 let forecastCardContainerEl = document.querySelector(".forecast-card-container");
 
-let addHistory = function(event) {
-  let city = cityInput.value;
+console.log(JSON.parse(localStorage.getItem("historyArray")))
+
+if (JSON.parse(localStorage.getItem("historyArray"))) {
+  var thisHistory = JSON.parse(localStorage.getItem("historyArray"));
+} else {
+  var thisHistory = [];
+}
+
+var addHistory = function(city) {
   let historySearchBtn = document.createElement("button");
   historySearchBtn.className = "btn btn-secondary btn-long";
   historySearchBtn.textContent = city;
+  thisHistory.push(city);
+  localStorage.setItem("historyArray",JSON.stringify(thisHistory));
   searchHistoryEl.appendChild(historySearchBtn);
   historySearchBtn.addEventListener("click", getWeather);
   // needs to persist in local storage
 };
 
-let getWeather = function(event) {
+// if (thisHistory.length > 0) {
+//   for (let i = 0; i < thisHistory.length; i++) {
+//     addHistory(thisHistory[i]);
+//   }
+// }
+
+var getWeather = function(event) {
     event.preventDefault();
     console.log(event.target.innerHTML);
     // capture city input information for api call
     let city = "";
     if (cityInput.value) {
       city = cityInput.value;
-      addHistory();
+      addHistory(city);
+
     } else {
       city = event.target.innerHTML;
     }
@@ -56,7 +78,7 @@ let getWeather = function(event) {
     
 };
 
-let displayWeather = function(weatherData) {
+var displayWeather = function(weatherData) {
     // clear info
     currentTempEl.innerHTML = "";
     currentWindEl.innerHTML = "";
@@ -98,15 +120,17 @@ let displayWeather = function(weatherData) {
     currentHumidityEl.innerHTML = "Humidity: " + humidity + "%";
 };   
 // function for displaying uv data from the api response with uv data
-let displayUvi = function(uvData) {
+var displayUvi = function(uvData) {
   let uv = uvData.current.uvi;
   currentUviEl.innerHTML = "UV Index: " + uv;
 };
 
-let displayForecast = function(data) {
-    // clear old card info
+var displayForecast = function(data) {
+        // clear old card info
     forecastCardContainerEl.innerHTML = "";
-     
+
+
+
     for (let i =0; i < 5; i++) {
     let forecastCardEl = document.createElement("div");
     forecastCardEl.className = "forecast-card col";
@@ -115,7 +139,7 @@ let displayForecast = function(data) {
     let forecastTempEl = document.createElement("p");
     let forecastWindEl = document.createElement("p");
     let forecastHumidEl = document.createElement("p");
-    forecastDateEl.innerHTML = data.daily[i].dt;
+    forecastDateEl.innerHTML = forecastDateArray[i];
     forecastImageEl.innerHTML = "Image: ";
     forecastTempEl.innerHTML = 
     "Temp: " + Math.round(((data.daily[i].temp.max - data.daily[i].temp.min)/2)*100)/100 + "&#186;F";
@@ -129,6 +153,8 @@ let displayForecast = function(data) {
     forecastCardContainerEl.appendChild(forecastCardEl);
   }
 }
+
+
 // wait for click on search button
 citySearchBtn.addEventListener("click", getWeather);
 
