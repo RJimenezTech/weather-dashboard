@@ -1,3 +1,4 @@
+// api key and date info is initiated
 let today = moment().format("MM/DD/YYYY");
 let todayPlusOne = moment(today).add(1,'day').format("MM/DD/YYYY");
 let todayPlusTwo = moment(today).add(2,'day').format("MM/DD/YYYY");
@@ -6,8 +7,8 @@ let todayPlusFour = moment(today).add(4,'day').format("MM/DD/YYYY");
 let todayPlusFive = moment(today).add(5,'day').format("MM/DD/YYYY");
 let forecastDateArray = [todayPlusOne,todayPlusTwo,todayPlusThree,todayPlusFour,todayPlusFive];
 const myKey = "dd013adc3cf1902b3d464ff37618387b";
-
-let currentImageEl = document.querySelector(".current-image");
+// create dom elements for various output sections on page
+// let currentImageEl = document.querySelector(".current-image");
 let currentTempEl = document.querySelector(".current-temp");
 let currentWindEl = document.querySelector(".current-wind");
 let currentHumidityEl = document.querySelector(".current-humidity");
@@ -18,13 +19,13 @@ let cityInput = document.querySelector(".search-text");
 let citySearchBtn = document.querySelector(".search-button");
 let searchHistoryEl = document.querySelector(".search-history");
 let forecastCardContainerEl = document.querySelector(".forecast-card-container");
-
+// use thisHistory array, populate with local storage history if present
 if (JSON.parse(localStorage.getItem("historyArray"))) {
   var thisHistory = JSON.parse(localStorage.getItem("historyArray"));
 } else {
   var thisHistory = [];
 }
-
+// adds history button given an input city
 var createHistoryButton = function(city) {
   let historySearchBtn = document.createElement("button");
   historySearchBtn.className = "btn btn-secondary btn-secondary history-button";
@@ -34,13 +35,13 @@ var createHistoryButton = function(city) {
   searchHistoryEl.appendChild(historySearchBtn);
   historySearchBtn.addEventListener("click", getWeather);
 }
-
+// updates history in local storage
 var addHistory = function(city) {
   createHistoryButton(city); 
   thisHistory.push(city);
   localStorage.setItem("historyArray",JSON.stringify(thisHistory));
 };
-
+// calls weather api
 var getWeather = function(event) {
   event.preventDefault();
   // capture city input information for api call
@@ -58,6 +59,7 @@ var getWeather = function(event) {
       // request was successful
       if (response.ok) {
         response.json().then(function(data) {
+          // use this data to display current weather info
           displayWeather(data);
         });
       } else {
@@ -69,10 +71,9 @@ var getWeather = function(event) {
     });
     
 };
-// update uv color function
+// calls weather api to find uvi info and to update weather info
 var displayWeather = function(weatherData) {
     // clear info
-    currentImageEl.innterHTML = "";
     currentTempEl.innerHTML = "";
     currentWindEl.innerHTML = "";
     currentHumidityEl.innerHTML = "";
@@ -88,7 +89,9 @@ var displayWeather = function(weatherData) {
     // request was successful
     if (response.ok) {
       response.json().then(function(data) {
+        // use this data to get/display uvi info
         displayUvi(data);
+        // use this data to get/display forecast
         displayForecast(data);
       });
     } else {
@@ -105,18 +108,19 @@ var displayWeather = function(weatherData) {
   let temp = weatherData.main.temp;
   let wind = weatherData.wind.speed;
   let humidity = weatherData.main.humidity;
-  let source = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png";
+  let currentImageEl = document.createElement("img");
+  let source = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + ".png";
   currentImageEl.setAttribute("src",source);
+  weatherCardDateEl.appendChild(currentImageEl)
   currentTempEl.innerHTML = "Temp: " + temp + " &#186;F";
   currentWindEl.innerHTML = "Wind: " + wind + " MPH"; 
   currentHumidityEl.innerHTML = "Humidity: " + humidity + "%";
 };   
 // function for displaying uv data from the api response with uv data
 var displayUvi = function(uvData) {
-  let uv = uvData.current.uvi;
-  currentUviEl.innerHTML = "UV Index: " + uv;
+  currentUviEl.innerHTML = "UV Index: " +  uvData.current.uvi;
 };
-
+// calls weather api and displays relevant info on forecast cards
 var displayForecast = function(data) {
         // clear old card info
     forecastCardContainerEl.innerHTML = "";
@@ -146,12 +150,11 @@ var displayForecast = function(data) {
     forecastCardContainerEl.appendChild(forecastCardEl);
   }
 }
-
+// populate the search history with contents of local storage
 for (let i = 0; i < thisHistory.length; i++) {
   createHistoryButton(thisHistory[i]);
 }
 // wait for click on search button
 citySearchBtn.addEventListener("click", getWeather);
-
 // wait for city input 
 cityInput.addEventListener("submit", getWeather);
