@@ -49,12 +49,11 @@ form {
 }
 .search-history button {
     margin: 2px;
+    width:85%;
 }
 .weather {
     outline: 1px solid black;
 }
-
-.forecast-card-container {}
 
 .forecast-card {
     margin: 5px;
@@ -62,4 +61,8 @@ form {
     padding: 2px;
     color: white;
     text-align: left;
+}
+
+.bold {
+    font-weight: bold;
 }

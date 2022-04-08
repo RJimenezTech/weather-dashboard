@@ -19,65 +19,57 @@ let citySearchBtn = document.querySelector(".search-button");
 let searchHistoryEl = document.querySelector(".search-history");
 let forecastCardContainerEl = document.querySelector(".forecast-card-container");
 
-console.log(JSON.parse(localStorage.getItem("historyArray")))
-
 if (JSON.parse(localStorage.getItem("historyArray"))) {
   var thisHistory = JSON.parse(localStorage.getItem("historyArray"));
 } else {
   var thisHistory = [];
 }
 
-var addHistory = function(city) {
+var createHistoryButton = function(city) {
   let historySearchBtn = document.createElement("button");
-  historySearchBtn.className = "btn btn-secondary btn-long";
+  historySearchBtn.className = "btn btn-secondary btn-secondary history-button";
+  historySearchBtn.setAttribute("style","overflow:hidden;resize:none");
+  historySearchBtn.setAttribute("type","submit");
   historySearchBtn.textContent = city;
-  thisHistory.push(city);
-  localStorage.setItem("historyArray",JSON.stringify(thisHistory));
   searchHistoryEl.appendChild(historySearchBtn);
   historySearchBtn.addEventListener("click", getWeather);
-  // needs to persist in local storage
-};
+}
 
-// if (thisHistory.length > 0) {
-//   for (let i = 0; i < thisHistory.length; i++) {
-//     addHistory(thisHistory[i]);
-//   }
-// }
+var addHistory = function(city) {
+  createHistoryButton(city); 
+  thisHistory.push(city);
+  localStorage.setItem("historyArray",JSON.stringify(thisHistory));
+};
 
 var getWeather = function(event) {
-    event.preventDefault();
-    console.log(event.target.innerHTML);
-    // capture city input information for api call
-    let city = "";
-    if (cityInput.value) {
-      city = cityInput.value;
-      addHistory(city);
-
-    } else {
-      city = event.target.innerHTML;
-    }
-    
-    // let city = cityInput.value;
-    let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + myKey;
-    // request api information
-    fetch(apiUrl).then(function(response) {
-        // request was successful
-        if (response.ok) {
-          // console.log(response);
-          response.json().then(function(data) {
-            console.log(data);
-            displayWeather(data);
-          });
-        } else {
-          alert("Error: " + response.statusText);
-        }
-      })
-      .catch(function(error) {
-        alert("Unable to connect to Open Weather");
-      });
+  event.preventDefault();
+  // capture city input information for api call
+  let city = "";
+  if (cityInput.value) {
+    city = cityInput.value;
+    addHistory(city);
+  } else {
+    city = event.target.innerHTML;
+  }
+  
+  let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + myKey;
+  // request api information
+  fetch(apiUrl).then(function(response) {
+      // request was successful
+      if (response.ok) {
+        response.json().then(function(data) {
+          displayWeather(data);
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function(error) {
+      alert("Unable to connect to Open Weather");
+    });
     
 };
-
+// update uv color function
 var displayWeather = function(weatherData) {
     // clear info
     currentImageEl.innterHTML = "";
@@ -91,14 +83,11 @@ var displayWeather = function(weatherData) {
     let lat = weatherData.coord.lat;
     // use lat and lon in api call
     let uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + myKey;
-    // retrieve info from this new api url
     fetch(uvUrl)
     .then(function(response) {
     // request was successful
     if (response.ok) {
-      // console.log(response);
       response.json().then(function(data) {
-        console.log(data);
         displayUvi(data);
         displayForecast(data);
       });
@@ -109,18 +98,18 @@ var displayWeather = function(weatherData) {
   .catch(function(error) {
     alert("Unable to connect to Open Weather");
   });
-    // update current weather info
-    weatherCardDateEl.textContent = weatherData.name + " (" + today + ")";
-    // clear input info
-    cityInput.value = "";// using weatherData display the information
-    let temp = weatherData.main.temp;
-    let wind = weatherData.wind.speed;
-    let humidity = weatherData.main.humidity;
-    let source = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png";
-    currentImageEl.setAttribute("src",source);
-    currentTempEl.innerHTML = "Temp: " + temp + " &#186;F";
-    currentWindEl.innerHTML = "Wind: " + wind + " MPH"; 
-    currentHumidityEl.innerHTML = "Humidity: " + humidity + "%";
+  // update current weather info
+  weatherCardDateEl.textContent = weatherData.name + " (" + today + ")";
+  // clear input info
+  cityInput.value = "";// using weatherData display the information
+  let temp = weatherData.main.temp;
+  let wind = weatherData.wind.speed;
+  let humidity = weatherData.main.humidity;
+  let source = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + "@2x.png";
+  currentImageEl.setAttribute("src",source);
+  currentTempEl.innerHTML = "Temp: " + temp + " &#186;F";
+  currentWindEl.innerHTML = "Wind: " + wind + " MPH"; 
+  currentHumidityEl.innerHTML = "Humidity: " + humidity + "%";
 };   
 // function for displaying uv data from the api response with uv data
 var displayUvi = function(uvData) {
@@ -131,21 +120,22 @@ var displayUvi = function(uvData) {
 var displayForecast = function(data) {
         // clear old card info
     forecastCardContainerEl.innerHTML = "";
-
+    console.log(data);
     for (let i =0; i < 5; i++) {
     let forecastCardEl = document.createElement("div");
     forecastCardEl.className = "forecast-card col-3 col-md-4 col-lg bg-info";
     let forecastDateEl = document.createElement("p");
     let forecastImageEl = document.createElement("img");
-    let source = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
+    let source = "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + ".png";
     forecastImageEl.setAttribute("src",source);
     let forecastTempEl = document.createElement("p");
     let forecastWindEl = document.createElement("p");
     let forecastHumidEl = document.createElement("p");
+    forecastDateEl.className = "forecast-date bold"
     forecastDateEl.innerHTML = forecastDateArray[i];
     forecastImageEl.innerHTML = "Image: ";
     forecastTempEl.innerHTML = 
-    "Temp: " + Math.round(((data.daily[i].temp.max - data.daily[i].temp.min)/2)*100)/100 + "&#186;F";
+    "Temp: " + data.daily[i].temp.day + "&#186;F";
     forecastWindEl.innerHTML = "Wind: " + data.daily[i].wind_speed + " MPH";
     forecastHumidEl.innerHTML = "Humidity: " + data.daily[i].humidity + "%";
     forecastCardEl.appendChild(forecastDateEl);
@@ -157,13 +147,11 @@ var displayForecast = function(data) {
   }
 }
 
-
+for (let i = 0; i < thisHistory.length; i++) {
+  createHistoryButton(thisHistory[i]);
+}
 // wait for click on search button
 citySearchBtn.addEventListener("click", getWeather);
 
 // wait for city input 
 cityInput.addEventListener("submit", getWeather);
-
-
-
-// update uv color function
