@@ -66,3 +66,28 @@ form {
 .bold {
     font-weight: bold;
 }
+.uvi-class {
+    color: white;
+    border-radius: 2px;
+    display: inline;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.purple {
+    background-color: blueviolet;
+}
+.yellow {
+    background-color: yellow;
+    color: black;
+}
+.green {
+    background-color: green;
+}
+.orange {
+    background-color: orange;
+    color: black;
+}
+.red {
+    background-color: red;
+}

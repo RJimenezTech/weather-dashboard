@@ -9,10 +9,12 @@ let forecastDateArray = [todayPlusOne,todayPlusTwo,todayPlusThree,todayPlusFour,
 const myKey = "dd013adc3cf1902b3d464ff37618387b";
 // create dom elements for various output sections on page
 // let currentImageEl = document.querySelector(".current-image");
+let weatherCardEl = document.querySelector(".current-weather");
 let currentTempEl = document.querySelector(".current-temp");
 let currentWindEl = document.querySelector(".current-wind");
 let currentHumidityEl = document.querySelector(".current-humidity");
-let currentUviEl = document.querySelector(".current-uvi");
+let currentTextEl = document.querySelector(".current-uvi");
+let currentUvButtonEl = document.createElement("span");
 let weatherCardDateEl = document.querySelector(".todays-info");
 weatherCardDateEl.textContent = "Today is: " + today;
 let cityInput = document.querySelector(".search-text");
@@ -77,7 +79,7 @@ var displayWeather = function(weatherData) {
     currentTempEl.innerHTML = "";
     currentWindEl.innerHTML = "";
     currentHumidityEl.innerHTML = "";
-    currentUviEl.innerHTML = "";
+    currentTextEl.innerHTML = "";
     // take weather data as input
     // use weatherData to find the lat and lon of the input city
     let lon = weatherData.coord.lon;
@@ -104,7 +106,8 @@ var displayWeather = function(weatherData) {
   // update current weather info
   weatherCardDateEl.textContent = weatherData.name + " (" + today + ")";
   // clear input info
-  cityInput.value = "";// using weatherData display the information
+  cityInput.value = "";
+  // using weatherData display the information
   let temp = weatherData.main.temp;
   let wind = weatherData.wind.speed;
   let humidity = weatherData.main.humidity;
@@ -118,8 +121,29 @@ var displayWeather = function(weatherData) {
 };   
 // function for displaying uv data from the api response with uv data
 var displayUvi = function(uvData) {
-  currentUviEl.innerHTML = "UV Index: " +  uvData.current.uvi;
+  currentTextEl.innerHTML = "UV Index: ";
+  currentUvButtonEl.innerHTML = uvData.current.uvi;
+  updateUvColor(uvData.current.uvi)
+  currentTextEl.appendChild(currentUvButtonEl);
 };
+// function that adds a color class to uv index
+var updateUvColor = function (uvIndex) {
+  if (uvIndex >= 0 && uvIndex <= 2.99) {
+    currentUvButtonEl.className = "uvi-class green";
+  } 
+  if (uvIndex >= 3 && uvIndex <= 4.99) {
+    currentUvButtonEl.className = "uvi-class yellow";
+  }
+  if (uvIndex >= 5 && uvIndex <= 6.99) {
+    currentUvButtonEl.className = "uvi-class orange";
+  }
+  if (uvIndex >= 7 && uvIndex <= 9.99) {
+    currentUvButtonEl.className = "uvi-class red";
+  }
+  if (uvIndex >= 10) {
+    currentUvButtonEl.className = "uvi-class purple";
+  }
+}
 // calls weather api and displays relevant info on forecast cards
 var displayForecast = function(data) {
         // clear old card info
