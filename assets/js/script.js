@@ -151,7 +151,7 @@ var displayForecast = function(data) {
     console.log(data);
     for (let i =0; i < 5; i++) {
     let forecastCardEl = document.createElement("div");
-    forecastCardEl.className = "forecast-card col-3 col-md-4 col-lg bg-info";
+    forecastCardEl.className = "forecast-card col-xs-5 col-md-4 col-lg bg-info";
     let forecastDateEl = document.createElement("p");
     let forecastImageEl = document.createElement("img");
     let source = "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + ".png";
